@@ -1,8 +1,8 @@
-import { useReactiveVar } from "@apollo/client";
+import { ApolloProvider, useReactiveVar } from "@apollo/client";
 import { HelmetProvider } from "react-helmet-async";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
-import { darkModeVar, isLoggedInVar } from "./apollo";
+import { client, darkModeVar, isLoggedInVar } from "./apollo";
 import routes from "./routes";
 import Home from "./screens/Home";
 import Login from "./screens/Login";
@@ -14,6 +14,7 @@ import { darkTheme, GlobalStyles, lightTheme } from "./styles";
       const isLoggedIn = useReactiveVar(isLoggedInVar);
       const darkMode = useReactiveVar(darkModeVar);
       return (
+        <ApolloProvider client={client}>
         <HelmetProvider>
         <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
           <GlobalStyles />
@@ -34,6 +35,7 @@ import { darkTheme, GlobalStyles, lightTheme } from "./styles";
           </Router>
         </ThemeProvider>
         </HelmetProvider>
+        </ApolloProvider>
       );
     }
 
