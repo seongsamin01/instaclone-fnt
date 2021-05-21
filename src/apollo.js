@@ -1,4 +1,8 @@
-import { ApolloClient, InMemoryCache, makeVar } from "@apollo/client";
+import { 
+    ApolloClient, 
+    InMemoryCache, 
+    makeVar,
+ } from "@apollo/client";
 
 const TOKEN = "token";
 
@@ -15,6 +19,7 @@ export const logUserOut = () => {
 };
 
 export const darkModeVar = makeVar(false);
+
 export const client = new ApolloClient({
     uri: "http://localhost:4000/graphql",
     cache: new InMemoryCache(),

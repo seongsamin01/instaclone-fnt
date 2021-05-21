@@ -69,8 +69,8 @@ function Login() {
         });
     };
     const clearLoginError = () => {
-          clearErrors("result")
-    }
+          clearErrors("result");
+    };
     return (
             <AuthLayout>
                 <PageTitle title="Login"/>
