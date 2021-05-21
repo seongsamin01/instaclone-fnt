@@ -21,7 +21,7 @@ export const logUserOut = () => {
     window.location.reload();
 };
 
-export const darkModeVar = makeVar(Boolean(localStorage.getItem(DARK_MODE) === "enabled"));
+export const darkModeVar = makeVar(Boolean(localStorage.getItem(DARK_MODE)));
 
 export const enableDarkMode = () => {
     localStorage.setItem(DARK_MODE, "enabled");
