@@ -3,6 +3,7 @@ import { faFacebookSquare, faInstagram } from "@fortawesome/free-brands-svg-icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import gql from "graphql-tag";
 import { useForm } from "react-hook-form";
+import { useLocation } from "react-router";
 import styled from "styled-components";
 import { logUserIn } from "../apollo";
 import AuthLayout from "../components/auth/AuthLayout";
@@ -23,6 +24,10 @@ const FacebookLogin = styled.div`
     }
 `;
 
+const Notification = styled.div`
+    color: #2ecc71;
+`;
+
 const LOGIN_MUTATION = gql`
     mutation login($username:String!, $password:String!){
         login(username:$username, password:$password) {
@@ -34,6 +39,8 @@ const LOGIN_MUTATION = gql`
 `;
 
 function Login() {
+    const location = useLocation();
+    console.log(location);
     const { 
             register, 
             handleSubmit, 
@@ -44,6 +51,10 @@ function Login() {
             clearErrors, 
     } = useForm({
         mode: "onChange",
+        defaultValues: {
+            username: location?.state?.username || "",
+            password: location?.state?.password || "",
+        }
     });
     const onCompleted = (data) => {
         const {login: {ok, error, token}} = data;
@@ -78,6 +89,7 @@ function Login() {
                     <div>
                         <FontAwesomeIcon icon={faInstagram} size="3x" />
                     </div>
+                    <Notification>{location?.state?.message}</Notification>
                     <form onSubmit={handleSubmit(onSubmitValid)}>
                         <Input 
                             ref={register({
