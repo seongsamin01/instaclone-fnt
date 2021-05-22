@@ -9,6 +9,7 @@ import { faHeart as SolidHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import Avatar from "../Avatar";
 import { FatText } from "../shared";
 import Comments from "./Comments";
@@ -82,30 +83,30 @@ function Photo({
   commentNumber,
   comments,
 }) {
-    const updateToggleLike = (cache, result) => {
-        const {
-          data: {
-            toggleLike: { ok },
+  const updateToggleLike = (cache, result) => {
+    const {
+      data: {
+        toggleLike: { ok },
+      },
+    } = result;
+    if (ok) {
+      const photoId = `Photo:${id}`;
+      cache.modify({
+        id: photoId,
+        fields: {
+          isLiked(prev) {
+            return !prev;
           },
-        } = result;
-        if (ok) {
-          const photoId = `Photo:${id}`;
-          cache.modify({
-            id: photoId,
-            fields: {
-              isLiked(prev) {
-                return !prev;
-              },
-              likes(prev) {
-                if (isLiked) {
-                  return prev - 1;
-                }
-                return prev + 1;
-                  },
-                },
-              });
+          likes(prev) {
+            if (isLiked) {
+              return prev - 1;
             }
-        };
+            return prev + 1;
+          },
+        },
+      });
+    }
+  };
   const [toggleLikeMutation] = useMutation(TOGGLE_LIKE_MUTATION, {
     variables: {
       id,
@@ -116,8 +117,12 @@ function Photo({
   return (
     <PhotoContainer key={id}>
       <PhotoHeader>
-        <Avatar lg url={user.avatar} />
-        <Username>{user.username}</Username>
+        <Link to={`/users/${user.username}`}>
+          <Avatar lg url={user.avatar} />
+        </Link>
+        <Link to={`/users/${user.username}`}>
+          <Username>{user.username}</Username>
+        </Link>
       </PhotoHeader>
       <PhotoFile src={file} />
       <PhotoData>
