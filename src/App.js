@@ -37,7 +37,9 @@ import Profile from "./screens/Profile";
                 </Route>
               ) : null}
               <Route path={`/users/:username`}>
-                <Profile />
+              <Layout>
+                  <Profile />
+                </Layout>
               </Route>
               <Route>
                 <NotFound />
